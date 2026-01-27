@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -18,6 +19,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
@@ -112,7 +114,8 @@ fun TransactionListScreenContent(
                     is TransactionListScreenState.Success -> {
                         TransactionsScreen(
                             modifier = Modifier.fillMaxSize(),
-                            transactions = listScreenState.transactions
+                            transactions = listScreenState.transactions,
+                            totalAmount = listScreenState.totalAmount
                         )
                     }
                 }
@@ -124,7 +127,8 @@ fun TransactionListScreenContent(
 @Composable
 fun TransactionsScreen(
     modifier: Modifier = Modifier,
-    transactions: List<Transaction>
+    transactions: List<Transaction>,
+    totalAmount: String = ""
 ) {
     LazyColumn(
         modifier = modifier.fillMaxSize(),
@@ -132,6 +136,22 @@ fun TransactionsScreen(
     ) {
         items(transactions) { transaction ->
             TransactionCard(transaction = transaction)
+        }
+        item {
+            Surface(
+                modifier = modifier
+                    .fillMaxWidth(),
+                shape = MaterialTheme.shapes.medium,
+                color = MaterialTheme.colorScheme.surface
+            ) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
+                ) {
+                    Text("Total Transacted Amount: Ksh $totalAmount")
+                }
+            }
         }
     }
 }
