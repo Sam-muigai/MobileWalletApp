@@ -11,6 +11,10 @@ data object Home : NavKey
 
 fun EntryProviderScope<NavKey>.homeEntry(backStack: NavBackStack<NavKey>) {
     entry<Home> {
-        HomeScreen()
+        HomeScreen(
+            onSendMoneyClick = {
+
+            }
+        )
     }
 }
