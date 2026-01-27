@@ -28,6 +28,7 @@ import com.app.compulynx.features.authentication.login.LoginScreen
 import com.app.compulynx.features.authentication.navigation.Login
 import com.app.compulynx.features.authentication.navigation.authenticationEntry
 import com.app.compulynx.features.home.navigation.homeEntry
+import com.app.compulynx.features.profile.navigation.profileEntry
 import com.app.compulynx.features.transaction.navigation.transactionEntry
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -81,6 +82,7 @@ fun App() {
                 authenticationEntry(backStack)
                 homeEntry(backStack)
                 transactionEntry(backStack)
+                profileEntry(backStack)
             },
             entryDecorators = listOf(
                 rememberSaveableStateHolderNavEntryDecorator(),

@@ -40,7 +40,8 @@ fun HomeScreen(
     homeScreenViewModel: HomeScreenViewModel = hiltViewModel(),
     onSendMoneyClick: () -> Unit,
     onViewAllTransactionsClick: () -> Unit,
-    navigateToLogin: () -> Unit
+    navigateToLogin: () -> Unit,
+    onProfileClick: () -> Unit = {}
 ) {
     val homeScreenState = homeScreenViewModel.state.collectAsStateWithLifecycle().value
 
@@ -56,7 +57,8 @@ fun HomeScreen(
         homeScreenState = homeScreenState,
         onEvent = homeScreenViewModel::handleEvent,
         onSendMoneyClick = onSendMoneyClick,
-        onViewAllTransactionsClick = onViewAllTransactionsClick
+        onViewAllTransactionsClick = onViewAllTransactionsClick,
+        onProfileClick = onProfileClick
     )
 }
 
@@ -68,7 +70,8 @@ fun HomeScreenContent(
     homeScreenState: HomeScreenState,
     onEvent: (HomeScreenEvent) -> Unit,
     onSendMoneyClick: () -> Unit,
-    onViewAllTransactionsClick: () -> Unit = {}
+    onViewAllTransactionsClick: () -> Unit = {},
+    onProfileClick: () -> Unit = {}
 ) {
     Scaffold(
         modifier = modifier,
@@ -83,18 +86,25 @@ fun HomeScreenContent(
                     )
                 },
                 actions = {
-                    Row {
-                        IconButton(
-                            onClick = {
-                                onEvent(HomeScreenEvent.OnLogoutClick)
-                            }
-                        ) {
-                            Icon(
-                                painter = painterResource(R.drawable.ic_logout),
-                                contentDescription = null
-                            )
+                    IconButton(
+                        onClick = {
+                            onEvent(HomeScreenEvent.OnLogoutClick)
                         }
+                    ) {
+                        Icon(
+                            painter = painterResource(R.drawable.ic_logout),
+                            contentDescription = null
+                        )
                     }
+                    IconButton(
+                        onClick = onProfileClick
+                    ) {
+                        Icon(
+                            painter = painterResource(R.drawable.ic_account),
+                            contentDescription = null
+                        )
+                    }
+
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.background

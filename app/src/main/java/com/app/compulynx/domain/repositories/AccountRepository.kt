@@ -7,5 +7,11 @@ interface AccountRepository {
 
     suspend fun getAccountDetails(): Result<Account>
 
-    suspend fun getUsername(): Flow<String>
+    fun getUsername(): Flow<String>
+
+    fun getEmail(): Flow<String>
+
+    fun getCustomerId(): Flow<String>
+
+    fun getAccountNumber(): Flow<String>
 }

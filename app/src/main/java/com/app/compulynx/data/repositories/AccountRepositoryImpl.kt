@@ -24,7 +24,19 @@ class AccountRepositoryImpl @Inject constructor(
             }
     }
 
-    override suspend fun getUsername(): Flow<String> {
+    override fun getUsername(): Flow<String> {
         return compulynxPreferences.getName()
+    }
+
+    override fun getEmail(): Flow<String> {
+        return compulynxPreferences.getEmail()
+    }
+
+    override fun getCustomerId(): Flow<String> {
+        return compulynxPreferences.getCustomerId()
+    }
+
+    override fun getAccountNumber(): Flow<String> {
+        return compulynxPreferences.getAccountNumber()
     }
 }
