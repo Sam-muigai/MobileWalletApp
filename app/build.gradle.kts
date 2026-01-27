@@ -69,5 +69,6 @@ dependencies {
 
     // hilt
     implementation(libs.dagger.hilt.android)
+    implementation(libs.hilt.compose)
     ksp(libs.dagger.hilt.compiler)
 }
