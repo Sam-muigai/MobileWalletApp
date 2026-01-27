@@ -1,6 +1,5 @@
 package com.app.compulynx.features.home
 
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.app.compulynx.core.base.BaseViewModel
 import com.app.compulynx.core.base.SnackbarController
@@ -8,7 +7,9 @@ import com.app.compulynx.core.base.SnackbarEvent
 import com.app.compulynx.core.base.UiEffect
 import com.app.compulynx.core.base.UiEvent
 import com.app.compulynx.core.base.UiState
+import com.app.compulynx.domain.models.Transaction
 import com.app.compulynx.domain.repositories.AccountRepository
+import com.app.compulynx.domain.repositories.TransactionRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
@@ -20,13 +21,15 @@ typealias ScreenModel = BaseViewModel<HomeScreenState, HomeScreenEvent, HomeScre
 
 @HiltViewModel
 class HomeScreenViewModel @Inject constructor(
-    private val accountRepository: AccountRepository
+    private val accountRepository: AccountRepository,
+    private val transactionRepository: TransactionRepository
 ) : ScreenModel(HomeScreenState()) {
 
     init {
         viewModelScope.launch {
             val username = accountRepository.getUsername().first()
             setState { copy(username = username) }
+            getMiniStatement()
         }
     }
 
@@ -39,14 +42,35 @@ class HomeScreenViewModel @Inject constructor(
         }
     }
 
+    private suspend fun getMiniStatement() {
+        setState { copy(isTransactionLoading = true) }
+        transactionRepository.getMiniStatement()
+            .onSuccess { transactions ->
+                setState {
+                    copy(
+                        isTransactionLoading = false,
+                        transactions = transactions
+                    )
+                }
+            }.onFailure {
+                setState { copy(isTransactionLoading = false) }
+                SnackbarController.sendEvent(
+                    SnackbarEvent(
+                        it.message ?: "Error fetching transactions"
+                    )
+                )
+            }
+
+    }
+
     private fun fetchAccountDetails() {
-        setState { copy(isLoading = true) }
+        setState { copy(isBalanceLoading = true) }
         viewModelScope.launch {
             accountRepository.getAccountDetails()
                 .onSuccess { accountDetails ->
                     setState {
                         copy(
-                            isLoading = false,
+                            isBalanceLoading = false,
                             balance = accountDetails.balance.toString(),
                             isBalanceVisible = true
                         )
@@ -72,7 +96,9 @@ class HomeScreenViewModel @Inject constructor(
 
 data class HomeScreenState(
     val username: String = "",
-    val isLoading: Boolean = false,
+    val isBalanceLoading: Boolean = false,
+    val isTransactionLoading: Boolean = false,
+    val transactions: List<Transaction> = emptyList(),
     val isBalanceVisible: Boolean = false,
     val balance: String = ""
 ) : UiState

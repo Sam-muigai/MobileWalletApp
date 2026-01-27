@@ -4,6 +4,7 @@ import com.app.compulynx.core.network.dtos.AccountDto
 import com.app.compulynx.core.network.dtos.AccountRequestDto
 import com.app.compulynx.core.network.dtos.LoginRequestDto
 import com.app.compulynx.core.network.dtos.LoginResponseDto
+import com.app.compulynx.core.network.dtos.MiniStatementRequestDto
 import com.app.compulynx.core.network.dtos.SendMoneyRequestDto
 import com.app.compulynx.core.network.dtos.SendMoneyResponseDto
 import com.app.compulynx.core.network.dtos.TransactionDto
@@ -17,6 +18,7 @@ interface CompulynxApiService {
     suspend fun getAccountBalance(accountRequestDto: AccountRequestDto): NetworkResult<AccountDto>
     suspend fun getLast100Transactions(transactionRequestDto: TransactionRequestDto): NetworkResult<List<TransactionDto>>
     suspend fun sendMoney(sendMoneyRequestDto: SendMoneyRequestDto): NetworkResult<SendMoneyResponseDto>
+    suspend fun getMiniStatement(miniStatementRequestDto: MiniStatementRequestDto): NetworkResult<List<TransactionDto>>
 }
 
 class CompulynxApiServiceImpl(private val client: HttpClient) : CompulynxApiService {
@@ -36,6 +38,11 @@ class CompulynxApiServiceImpl(private val client: HttpClient) : CompulynxApiServ
         return client.postRequest(sendMoneyRequestDto, SEND_MONEY)
     }
 
+    override suspend fun getMiniStatement(miniStatementRequestDto: MiniStatementRequestDto): NetworkResult<List<TransactionDto>> {
+        return client.postRequest(miniStatementRequestDto, GET_MINI_STATEMENT)
+    }
+
+
     companion object {
         const val BASE_URL = "http://192.168.100.72:8092/springboot-rest-api"
         const val LOGIN = "${BASE_URL}/api/v1/customers/login"
@@ -43,5 +50,6 @@ class CompulynxApiServiceImpl(private val client: HttpClient) : CompulynxApiServ
         const val SEND_MONEY = "${BASE_URL}/api/v1/transactions/send-money"
         const val GET_LAST_100_TRANSACTIONS =
             "${BASE_URL}/api/v1/transactions/last-100-transactions"
+        const val GET_MINI_STATEMENT = "${BASE_URL}/api/v1/transactions/mini-statement"
     }
 }
