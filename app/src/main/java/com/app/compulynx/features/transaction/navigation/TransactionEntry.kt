@@ -23,8 +23,10 @@ fun EntryProviderScope<NavKey>.transactionEntry(backStack: NavBackStack<NavKey>)
     }
 
     entry<SendMoney> {
-        SendMoneyScreen {
-
-        }
+        SendMoneyScreen(
+            onBackClick = {
+                backStack.removeLastOrNull()
+            }
+        )
     }
 }

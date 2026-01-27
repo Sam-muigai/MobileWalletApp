@@ -1,5 +1,6 @@
 package com.app.compulynx.features.profile
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -72,8 +73,12 @@ fun ProfileScreenContent(
             modifier = Modifier
                 .padding(paddingValues)
                 .padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             Text("Name: ${profileScreenState.name}")
+            Text("Email: ${profileScreenState.email}")
+            Text("Customer ID: ${profileScreenState.customerId}")
+            Text("Account Number: ${profileScreenState.accountNumber}")
         }
     }
 }
