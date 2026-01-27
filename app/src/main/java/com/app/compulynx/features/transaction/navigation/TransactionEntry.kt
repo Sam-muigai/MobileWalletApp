@@ -4,6 +4,7 @@ import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavBackStack
 import androidx.navigation3.runtime.NavKey
 import com.app.compulynx.features.transaction.listTransactions.TransactionListScreen
+import com.app.compulynx.features.transaction.sendMoney.SendMoneyScreen
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -19,5 +20,11 @@ fun EntryProviderScope<NavKey>.transactionEntry(backStack: NavBackStack<NavKey>)
                 backStack.removeLastOrNull()
             }
         )
+    }
+
+    entry<SendMoney> {
+        SendMoneyScreen {
+
+        }
     }
 }
