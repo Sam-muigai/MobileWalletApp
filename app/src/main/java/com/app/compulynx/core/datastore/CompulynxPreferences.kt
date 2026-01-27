@@ -24,6 +24,8 @@ interface CompulynxPreferences {
 
     suspend fun saveCustomerId(customerId: String)
     fun getCustomerId(): Flow<String>
+
+    suspend fun clearAll()
 }
 
 
@@ -75,6 +77,12 @@ class CompulynxPreferencesImpl(
     override fun getCustomerId(): Flow<String> {
         return context.dataStore.data.map { preferences ->
             preferences[CUSTOMER_ID] ?: ""
+        }
+    }
+
+    override suspend fun clearAll() {
+        context.dataStore.edit { preferences ->
+            preferences.clear()
         }
     }
 

@@ -30,4 +30,8 @@ class AuthRepositoryImpl @Inject constructor(
                 "Login successful"
             }
     }
+
+    override suspend fun logout() {
+        compulynxPreferences.clearAll()
+    }
 }

@@ -9,6 +9,7 @@ import com.app.compulynx.core.base.UiEvent
 import com.app.compulynx.core.base.UiState
 import com.app.compulynx.domain.models.Transaction
 import com.app.compulynx.domain.repositories.AccountRepository
+import com.app.compulynx.domain.repositories.AuthRepository
 import com.app.compulynx.domain.repositories.TransactionRepository
 import com.app.compulynx.utils.format
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -22,6 +23,7 @@ typealias ScreenModel = BaseViewModel<HomeScreenState, HomeScreenEvent, HomeScre
 
 @HiltViewModel
 class HomeScreenViewModel @Inject constructor(
+    private val authRepository: AuthRepository,
     private val accountRepository: AccountRepository,
     private val transactionRepository: TransactionRepository
 ) : ScreenModel(HomeScreenState()) {
@@ -39,6 +41,14 @@ class HomeScreenViewModel @Inject constructor(
         when (event) {
             HomeScreenEvent.OnViewBalanceClick -> {
                 fetchAccountDetails()
+            }
+
+            HomeScreenEvent.OnLogoutClick -> {
+                viewModelScope.launch {
+                    authRepository.logout()
+                    SnackbarController.sendEvent(SnackbarEvent("Logged out successfully"))
+                    sendEffect(HomeScreenEffect.NavigateToLogin)
+                }
             }
         }
     }
@@ -107,8 +117,10 @@ data class HomeScreenState(
 
 sealed class HomeScreenEvent : UiEvent {
     data object OnViewBalanceClick : HomeScreenEvent()
+
+    data object OnLogoutClick : HomeScreenEvent()
 }
 
 sealed class HomeScreenEffect : UiEffect {
-
+    data object NavigateToLogin : HomeScreenEffect()
 }
