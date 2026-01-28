@@ -1,4 +1,4 @@
-## Compulynx App
+## MobileWallet App
 
 ### Screenshots
 <table>
