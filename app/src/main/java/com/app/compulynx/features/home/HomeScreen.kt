@@ -171,7 +171,12 @@ fun HomeScreenContent(
             }
             item {
                 AnimatedVisibility(homeScreenState.isTransactionLoading) {
-                    CircularProgressIndicator(modifier = Modifier.size(32.dp))
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.Center,
+                    ) {
+                        CircularProgressIndicator(modifier = Modifier.size(32.dp))
+                    }
                 }
             }
             items(homeScreenState.transactions) { transaction ->
