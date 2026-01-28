@@ -83,5 +83,5 @@ dependencies {
     // Work Manager
     implementation(libs.work.runtime.ktx)
     implementation(libs.hilt.work)
-    implementation(libs.work.compiler)
+    ksp(libs.work.compiler)
 }

@@ -8,6 +8,7 @@ import com.app.compulynx.core.base.UiEffect
 import com.app.compulynx.core.base.UiEvent
 import com.app.compulynx.core.base.UiState
 import com.app.compulynx.core.base.Validator
+import com.app.compulynx.core.work.status.SyncManager
 import com.app.compulynx.domain.models.SendMoneyRequest
 import com.app.compulynx.domain.repositories.TransactionRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,7 +20,8 @@ typealias ScreenModel = BaseViewModel<SendMoneyScreenState, SendMoneyScreenEvent
 
 @HiltViewModel
 class SendMoneyScreenViewModel @Inject constructor(
-    private val transactionRepository: TransactionRepository
+    private val transactionRepository: TransactionRepository,
+    private val syncManager: SyncManager
 ) : ScreenModel(SendMoneyScreenState()) {
     override fun handleEvent(event: SendMoneyScreenEvent) {
         when (event) {
@@ -68,7 +70,8 @@ class SendMoneyScreenViewModel @Inject constructor(
                 amount = state.value.amount.toInt(),
                 accountTo = state.value.accountTo
             )
-            transactionRepository.sendMoney(sendMoneyRequest)
+            transactionRepository.saveLocalTransaction(sendMoneyRequest)
+            syncManager.requestSync()
             SnackbarController.sendEvent(SnackbarEvent(message = "Transaction queued for processing successfully"))
             sendEffect(SendMoneyScreenEffect.NavigateBack)
         }
