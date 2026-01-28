@@ -67,16 +67,21 @@ dependencies {
     // Ktor
     implementation(libs.bundles.ktor)
 
-    // hilt
+    // Hilt
     implementation(libs.dagger.hilt.android)
     implementation(libs.hilt.compose)
     ksp(libs.dagger.hilt.compiler)
 
-    // datastore
+    // Datastore
     implementation(libs.datastore.preferences)
 
-    // room
+    // Room
     implementation(libs.room.runtime)
     implementation(libs.room.ktx)
     ksp(libs.room.compiler)
+
+    // Work Manager
+    implementation(libs.work.runtime.ktx)
+    implementation(libs.hilt.work)
+    implementation(libs.work.compiler)
 }
