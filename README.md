@@ -1,4 +1,17 @@
-## Compulynx App
+## MobileWallet App
+To run this app you need to configure the spring boot backend. You can find instructions on how to do this [here](https://github.com/Sam-muigai/MobileWallet-SpringBoot-Api). 
+
+Once you configure and run, the api will be available at:
+
+```
+http://localhost:8092/springboot-rest-api
+```
+
+if you are using an emulator for testing you can set the value of BASE_URL in [ApiService](https://github.com/Sam-muigai/MobileWalletApp/blob/main/app/src/main/java/com/app/compulynx/core/network/CompulynxApiService.kt) to:
+
+```
+http://10.0.2.2:8092/springboot-rest-api
+```
 
 ### Screenshots
 <table>
