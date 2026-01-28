@@ -84,4 +84,7 @@ dependencies {
     implementation(libs.work.runtime.ktx)
     implementation(libs.hilt.work)
     ksp(libs.work.compiler)
+
+    // Coroutine test
+    testImplementation(libs.coroutine.test)
 }

@@ -72,8 +72,8 @@ class LoginScreenViewModel @Inject constructor(
             authRepository.login(loginRequest)
                 .onSuccess { message ->
                     setState { copy(isLoading = false) }
-                    SnackbarController.sendEvent(SnackbarEvent(message))
                     sendEffect(LoginScreenEffect.NavigateToHome)
+                    SnackbarController.sendEvent(SnackbarEvent(message))
                 }.onFailure { e ->
                     setState { copy(isLoading = false) }
                     SnackbarController.sendEvent(SnackbarEvent(e.message ?: "Something went wrong"))
